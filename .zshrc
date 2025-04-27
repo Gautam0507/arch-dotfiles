@@ -59,3 +59,6 @@ export NVM_LAZY_LOAD=true
 # Aliases 
 alias ll='ls -lah --color=auto'
 alias l='ls -lh --color=auto'
+
+# Add Scirpts alias 
+alias git-submodule-sync="~/.dotfiles/.scripts/git-submodule-sync.sh"
