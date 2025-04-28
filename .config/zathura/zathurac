@@ -1,7 +1,61 @@
-set selection-clipboard clipboard
-set recolor             true
-set recolor-keephue     true
-set statusbar-home-tilde true
-set selection-clipboard clipboard
+# # Catppuccin Mocha theme for Zathura
+
+set completion-group-bg         "#313244"
+set completion-group-fg         "#cdd6f4"
+set completion-bg               "#313244"
+set completion-fg               "#cdd6f4"
+set completion-highlight-bg     "#89b4fa"
+set completion-highlight-fg     "#cdd6f4"
+
+set notification-error-bg       "#45475a"
+set notification-error-fg       "#cdd6f4"
+set notification-warning-bg     "#45475a"
+set notification-warning-fg     "#cdd6f4"
+set notification-bg             "#45475a"
+set notification-fg             "#cdd6f4"
+
+set index-bg                    "#181825"
+set index-fg                    "#cdd6f4"
+set index-active-bg             "#313244"
+set index-active-fg             "#cdd6f4"
+
+set inputbar-bg                 "#45475a"
+set inputbar-fg                 "#cdd6f4"
+
+set statusbar-bg                "#313244"
+set statusbar-fg                "#cdd6f4"
+
+set highlight-color             "#89b4fa"
+set highlight-active-color      "#89b4fa"
+
+set default-bg                  "#1e1e2e"
+set default-fg                  "#cdd6f4"
+set recolor-lightcolor          "#313244"
+set recolor-darkcolor           "#cdd6f4"
+
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-padding 1
+map u scroll half-up
+map d scroll half-down
+map D toggle_page_mode
+map b adjust_window best-fit
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map i recolor
+set recolor                     true
+set recolor-keephue true
+# Font setting
 set font "monospace 12"
+
+# Disable GUI elements
+set guioptions none
+
+# Statusbar behavior
+set statusbar-home-tilde true
+
+# Clipboard settings (ensure clipboard integration)
 set selection-clipboard clipboard
+

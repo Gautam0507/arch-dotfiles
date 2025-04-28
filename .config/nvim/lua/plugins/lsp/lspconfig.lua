@@ -46,6 +46,17 @@ return {
 		--    That is to say, every time a new file is opened that is associated with
 		--    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
 		--    function will be executed to configure the current buffer
+
+		-- Function to get the current Python version from pyenv
+		local function get_pyenv_python_path()
+			local handle = io.popen("pyenv which python")
+			if handle ~= nil then
+				local result = handle:read("*a")
+				handle:close()
+				return result:match("^%s*(.-)%s*$") -- Remove any leading/trailing spaces
+			end
+		end
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 			callback = function(event)
@@ -61,7 +72,7 @@ return {
 
 				-- Rename the variable under your cursor.
 				--  Most Language Servers support renaming across files, etc.
-				map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
+				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 
 				-- Execute a code action, usually your cursor needs to be on top of an error
 				-- or a suggestion from your LSP for this to activate.
@@ -221,6 +232,7 @@ return {
 				-- Pyright settings (optional)
 				settings = {
 					python = {
+						pythonPath = get_pyenv_python_path(), -- Existing value
 						analysis = {
 							-- Enable or disable diagnostic settings
 							diagnosticMode = "openFiles", -- "openFiles" or "workspace"

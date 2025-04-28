@@ -116,3 +116,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Setting up Python Provider
 vim.g.python3_host_prog = "/home/Gautam/.pyenv/versions/nvim/bin/python"
+vim.env.SHELL = "/bin/zsh" -- or '/bin/zsh'
+-- Ensure pyenv is initialized
+vim.env.PYENV_ROOT = vim.fn.expand("~/.pyenv")
+vim.env.PATH = vim.env.PYENV_ROOT .. "/shims:" .. vim.env.PYENV_ROOT .. "/bin:" .. vim.env.PATH
