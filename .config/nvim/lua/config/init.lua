@@ -87,7 +87,9 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
---
+-- Keymaps for horizontal and vertical splits
+-- vim.keymap.set("n", "<leader>sh", ":split<CR>", { desc = "Horizontal Split" })
+-- vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Vertical Split" })
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
@@ -120,3 +122,6 @@ vim.env.SHELL = "/bin/zsh" -- or '/bin/zsh'
 -- Ensure pyenv is initialized
 vim.env.PYENV_ROOT = vim.fn.expand("~/.pyenv")
 vim.env.PATH = vim.env.PYENV_ROOT .. "/shims:" .. vim.env.PYENV_ROOT .. "/bin:" .. vim.env.PATH
+
+-- Setting jk to normal mode for codecompanion
+vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = true, silent = true })
