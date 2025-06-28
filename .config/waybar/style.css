@@ -35,18 +35,6 @@
   border-radius: 1rem;
 }
 
-#custom-music,
-#tray,
-#backlight,
-#clock,
-#battery,
-#pulseaudio,
-#custom-lock,
-#custom-power {
-  background-color: @surface0;
-  padding: 0.5rem 1rem;
-  margin: 5px 0;
-}
 
 #clock {
   color: @blue;
@@ -99,4 +87,29 @@
 #tray {
   margin-right: 1rem;
   border-radius: 1rem;
+}
+
+#network {
+  color: @sapphire;
+  border-radius: 0;
+}
+
+#temperature {
+  color: @peach;
+  border-radius: 0;
+}
+
+#custom-music,
+#tray,
+#backlight,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#temperature,
+#custom-lock,
+#custom-power {
+  background-color: @surface0;
+  padding: 0.5rem 1rem;
+  margin: 5px 0;
 }

@@ -12,13 +12,8 @@ return {
 
 		-- Useful status updates for LSP.
 		{ "j-hui/fidget.nvim", opts = {} },
-
-		-- nvim-cmp and its dependencies
-		{ "hrsh7th/nvim-cmp" },
-		{ "hrsh7th/cmp-nvim-lsp" },
-		{ "L3MON4D3/LuaSnip" },
-		{ "saadparwaiz1/cmp_luasnip" },
-		{ "rafamadriz/friendly-snippets" },
+		-- Useful for autocompletion with LSP
+		"saghen/blink.cmp",
 	},
 	config = function()
 		-- Brief aside: **What is LSP?**
@@ -51,14 +46,32 @@ return {
 		--    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
 		--    function will be executed to configure the current buffer
 
-		-- Function to get the current Python version from pyenv
-		local function get_pyenv_python_path()
-			local handle = io.popen("pyenv which python")
-			if handle ~= nil then
+		-- Improved function for lua/plugins/lsp/lspconfig.lua
+		local function get_project_python_path()
+			-- Try to get pyenv path from the current directory's .python-version
+			local handle = io.popen("pyenv which python 2>/dev/null")
+			if handle then
 				local result = handle:read("*a")
 				handle:close()
-				return result:match("^%s*(.-)%s*$") -- Remove any leading/trailing spaces
+
+				if result and result ~= "" then
+					-- Remove trailing newlines
+					result = result:match("^%s*(.-)%s*$")
+					return result
+				end
 			end
+
+			-- Fallback to checking for activated virtual environment
+			local venv = os.getenv("VIRTUAL_ENV")
+			if venv and venv ~= "" then
+				local venv_python = venv .. "/bin/python"
+				if vim.fn.executable(venv_python) == 1 then
+					return venv_python
+				end
+			end
+
+			-- Final fallback to system python
+			return nil -- Let pyright use its default detection
 		end
 
 		vim.api.nvim_create_autocmd("LspAttach", {
@@ -208,7 +221,7 @@ return {
 		--  By default, Neovim doesn't support everything that is in the LSP specification.
 		--  When you add nvim.cmp, luasnip, etc. Neovim now has *more* capabilities.
 		--  So, we create new capabilities with nvim.cmp, and then broadcast that to the servers.
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		-- Enable the following language servers
 		--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -231,6 +244,20 @@ return {
 					},
 				},
 			},
+
+			-- Add jsonls configuration here
+			jsonls = {
+				filetypes = { "json", "jsonc" },
+				setup = {
+					commands = {
+						Format = {
+							function()
+								vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
+							end,
+						},
+					},
+				},
+			},
 			-- gopls = {},
 			-- rust_analyzer = {},
 			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -243,29 +270,30 @@ return {
 			--
 			pyright = {
 				filetypes = { "python" },
-				-- Pyright settings (optional)
 				settings = {
 					python = {
-						pythonPath = get_pyenv_python_path(), -- Existing value
+						-- Only set pythonPath if we found a project-specific Python
+						pythonPath = get_project_python_path(),
 						analysis = {
-							-- Enable or disable diagnostic settings
-							diagnosticMode = "openFiles", -- "openFiles" or "workspace"
-							typeCheckingMode = "basic", -- "off", "basic", "strict"
-							useLibraryCodeForTypes = true, -- Use library code for type checking
-							autoSearchPaths = true, -- Enable automatic search of the Python environment
-							stubPath = "typings", -- Path to custom type stubs
+							diagnosticMode = "openFiles",
+							typeCheckingMode = "basic",
+							useLibraryCodeForTypes = true,
+							autoImportCompletions = true,
+							autoSearchPaths = true,
+							-- Look for imports in both the project root and the workspace
+							extraPaths = {}, -- Will be populated dynamically if needed
 						},
 					},
 				},
-				capabilities = {
-					textDocument = {
-						completion = {
-							completionItem = {
-								snippetSupport = true, -- Enable snippet support
-							},
-						},
-					},
-				},
+				on_init = function(client, _)
+					-- Try to find the project root for smart import resolution
+					local path = client.config.root_dir
+					if path then
+						-- Add project root to extraPaths for better import resolution
+						client.config.settings.python.analysis.extraPaths =
+							vim.list_extend(client.config.settings.python.analysis.extraPaths or {}, { path })
+					end
+				end,
 			},
 			lua_ls = {
 				-- cmd = { ... },
