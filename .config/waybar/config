@@ -12,9 +12,9 @@
         //"sway/scratchpad",
         //"custom/media"
     ],
-  //  "modules-center": [
-        //"hyprland/window"
-   // ],
+    "modules-center": [
+        "clock"
+    ],
     "modules-right": [
        // "mpd",
        // "idle_inhibitor",
@@ -27,9 +27,8 @@
         //"backlight",
        // "keyboard-state",
        // "sway/language",
-        "battery",
-        "battery#bat2",
-        "clock"
+        "battery"
+       // "battery#bat2",
        // "tray",
        // "custom/power",
     ],
@@ -112,8 +111,9 @@
     },
     "clock": {
         // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"format": "{:%d - %H:%M}",
+		"format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
         "format": "{usage}% ",
@@ -150,9 +150,9 @@
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
+    //"battery#bat2": {
+     //   "bat": "BAT2"
+    //},
     "power-profiles-daemon": {
       "format": "{icon}",
       "tooltip-format": "Power profile: {profile}\nDriver: {driver}",

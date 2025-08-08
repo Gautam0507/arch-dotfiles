@@ -49,7 +49,8 @@ return {
 		-- Improved function for lua/plugins/lsp/lspconfig.lua
 		local function get_project_python_path()
 			-- Try to get pyenv path from the current directory's .python-version
-			local handle = io.popen("pyenv which python 2>/dev/null")
+			-- local handle = io.popen("pyenv which python 2>/dev/null")
+			local handle = io.popen("which python 2>/dev/null")
 			if handle then
 				local result = handle:read("*a")
 				handle:close()
@@ -244,7 +245,24 @@ return {
 					},
 				},
 			},
-
+			texlab = {
+				filetypes = { "tex", "bib" },
+				settings = {
+					texlab = {
+						build = {
+							args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+							executable = "latexmk",
+							forward_search = {
+								args = { "-forward-search", "%l", "%p" },
+							},
+						},
+						latexFormatter = "latexindent",
+						latexindent = {
+							modifyLineBreaks = true,
+						},
+					},
+				},
+			},
 			-- Add jsonls configuration here
 			jsonls = {
 				filetypes = { "json", "jsonc" },

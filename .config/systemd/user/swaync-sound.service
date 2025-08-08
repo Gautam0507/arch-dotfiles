@@ -1,0 +1,11 @@
+[Unit]
+Description=Play sound on swaync notification
+After=graphical-session.target
+
+[Service]
+ExecStart=/home/Gautam/.config/swaync/notify-sound.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

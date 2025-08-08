@@ -62,3 +62,4 @@ alias l='ls -lh --color=auto'
 
 # Add Scirpts alias 
 alias git-submodule-sync="~/.dotfiles/.scripts/git-submodule-sync.sh"
+eval "$(atuin init zsh)"

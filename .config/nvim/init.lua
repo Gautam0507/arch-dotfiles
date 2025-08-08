@@ -18,7 +18,11 @@ require("config")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
-
+if vim.g.vscode then
+	-- VSCode extension
+else
+	-- ordinary Neovim
+end
 -- Lazy setup options
 local opts = {
 	defaults = {
@@ -48,6 +52,8 @@ local opts = {
 		},
 	},
 }
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Lazy plugin list + opts
 require("lazy").setup({

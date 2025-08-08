@@ -1,16 +1,19 @@
-#!/bin/bash
+#!/bin/sh
 
-WALLPAPER_DIR="$HOME/.wallpaper"
+# Directory where your wallpapers are stored
+WALLPAPER_DIR="${HOME}/.wallpaper"
 
-# Get list of wallpapers (supports jpg, png, webp)
-WALLPAPERS=($(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.webp" \)))
+# List wallpapers, choose one using wofi
+chosen=$(ls "$WALLPAPER_DIR"/* | wofi --dmenu --prompt "Select Wallpaper:")
 
-# Display Wofi menu and get selected wallpaper
-SELECTED=$(printf '%s\n' "${WALLPAPERS[@]}" | wofi --dmenu --prompt "Select Wallpaper...")
+# If a wallpaper was selected
+if [ -n "$chosen" ]; then
+   # Example using hyprpaper to set wallpaper
+   # Overwrite hyprpaper config with the new wallpaper path
+   echo "preload = $chosen" > ~/.config/hypr/hyprpaper.conf
+   echo "wallpaper =, $chosen" >> ~/.config/hypr/hyprpaper.conf
 
-# Apply wallpaper if a selection was made
-if [[ -n "$SELECTED" ]]; then
-    hyprctl hyprpaper preload "$SELECTED"
-    hyprctl hyprpaper wallpaper " ,$SELECTED"
-    notify-send "Wallpaper Changed" "$(basename "$SELECTED")" -i "$SELECTED"
+   # Reload hyprpaper to apply the change
+   hyprctl hyprpaper reload ,"$chosen" 
 fi
+
