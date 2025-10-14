@@ -63,3 +63,9 @@ alias l='ls -lh --color=auto'
 # Add Scirpts alias 
 alias git-submodule-sync="~/.dotfiles/.scripts/git-submodule-sync.sh"
 eval "$(atuin init zsh)"
+
+# tmux sessionizer
+source <(COMPLETE=zsh tms)
+
+export COMPOSE_DOCKER_CLI_BUILD=1
+export DOCKER_BUILDKIT=1

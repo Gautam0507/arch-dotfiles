@@ -1,0 +1,8 @@
+{
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "read": "allow"
+  }
+}
+

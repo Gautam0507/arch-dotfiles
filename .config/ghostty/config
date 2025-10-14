@@ -42,4 +42,5 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 theme = mocha.conf
-font-size = 10
+font-size = 12
+command = "tmux"

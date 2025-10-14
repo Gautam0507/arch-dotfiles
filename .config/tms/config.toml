@@ -1,0 +1,7 @@
+[[search_dirs]]
+path = "/home/Gautam/Projects"
+depth = 10
+
+[[search_dirs]]
+path = "/home/Gautam/.dotfiles/.config"
+depth = 10
