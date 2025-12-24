@@ -55,47 +55,48 @@ return {
 			},
 
 			adapters = {
-				copilot = function()
-					return require("codecompanion.adapters").extend("copilot", {
-						schema = {
-							model = {
-								default = "gpt-4o", -- Latest Claude model
-								choices = {
-									"claude-3-opus-20240229", -- Latest Claude 3 Opus
-									"claude-3-sonnet-20240229", -- Latest Claude 3 Sonnet
-									"claude-3-haiku-20240307", -- Latest Claude 3 Haiku
-									"gpt-4o", -- Latest GPT-4o
-									"gpt-4-turbo",
-									"gpt-4",
-									"gpt-3.5-turbo",
+				http = {
+					copilot = function()
+						return require("codecompanion.adapters").extend("copilot", {
+							schema = {
+								model = {
+									default = "gpt-4o", -- Latest Claude model
+									choices = {
+										"claude-3-opus-20240229", -- Latest Claude 3 Opus
+										"claude-3-sonnet-20240229", -- Latest Claude 3 Sonnet
+										"claude-3-haiku-20240307", -- Latest Claude 3 Haiku
+										"gpt-4o", -- Latest GPT-4o
+										"gpt-4-turbo",
+										"gpt-4",
+										"gpt-3.5-turbo",
+									},
+								},
+								temperature = {
+									default = 0.1,
+									min = 0,
+									max = 1,
+									step = 0.1,
+								},
+								top_p = {
+									default = 0.95,
+									min = 0,
+									max = 1,
+									step = 0.05,
 								},
 							},
-							temperature = {
-								default = 0.1,
-								min = 0,
-								max = 1,
-								step = 0.1,
+						})
+					end,
+					ollama = function()
+						return require("codecompanion.adapters").extend("ollama", {
+							schema = {
+								num_ctx = {
+									default = 20000,
+								},
 							},
-							top_p = {
-								default = 0.95,
-								min = 0,
-								max = 1,
-								step = 0.05,
-							},
-						},
-					})
-				end,
-				ollama = function()
-					return require("codecompanion.adapters").extend("ollama", {
-						schema = {
-							num_ctx = {
-								default = 20000,
-							},
-						},
-					})
-				end,
+						})
+					end,
+				},
 			},
-
 			adapter = "copilot",
 		})
 

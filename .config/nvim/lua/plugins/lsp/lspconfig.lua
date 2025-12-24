@@ -233,6 +233,10 @@ return {
 		--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+		local function python_root_dir(fname)
+			local util = require("lspconfig.util")
+			return util.root_pattern("pyproject.toml", "requirements.txt")(fname) or vim.fs.dirname(fname)
+		end
 		local servers = {
 			clangd = {
 				filetypes = { "c", "cpp", "cc", "h", "hpp" },
@@ -313,6 +317,35 @@ return {
 					end
 				end,
 			},
+			based_pyright = {
+				filetypes = { "python" },
+				root_dir = python_root_dir,
+				settings = {
+					python = {
+						analysis = {
+							diagnosticMode = "openFilesOnly",
+							typeCheckingMode = "basic",
+							useLibraryCodeForTypes = true,
+							autoImportCompletions = true,
+							autoSearchPaths = true,
+						},
+					},
+				},
+			},
+			pyrefly = {
+				default_config = {
+					cmd = { "pyrefly", "lsp" },
+					filetypes = { "python" },
+					root_dir = python_root_dir,
+				},
+				setup = {
+					filetypes = { "python" },
+					root_dir = python_root_dir,
+				},
+			},
+			docker_compose_language_service = {},
+			docker_language_server = {},
+			dockerls = {},
 			lua_ls = {
 				-- cmd = { ... },
 				-- filetypes = { ... },

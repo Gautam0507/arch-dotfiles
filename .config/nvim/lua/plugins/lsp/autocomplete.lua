@@ -65,8 +65,7 @@ return { -- Autocompletion
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
-			nerd_font_variant = "mono",
-			max_item_count = 8,
+			nerd_font_variant = "normal",
 		},
 
 		completion = {
