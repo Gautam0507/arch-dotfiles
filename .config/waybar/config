@@ -27,6 +27,7 @@
         //"backlight",
        // "keyboard-state",
        // "sway/language",
+	     "custom/bluetooth",
         "battery"
        // "battery#bat2",
        // "tray",
@@ -58,7 +59,16 @@
             "unlocked": ""
         }
     },
-    "sway/mode": {
+
+"custom/bluetooth": {
+  "format": " {}", // Icon + status from exec
+  "tooltip": "Bluetooth",
+  "on-click": "blueman-manager",
+  "exec": "bluetoothctl show | grep Powered | grep -q yes && echo 'on' || echo 'off'",
+  "interval": 10
+}, 
+"sway/mode": {
+
         "format": "<span style=\"italic\">{}</span>"
     },
     "sway/scratchpad": {

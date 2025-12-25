@@ -35,7 +35,6 @@
   border-radius: 1rem;
 }
 
-
 #clock {
   color: @blue;
   border-radius: 1rem;
@@ -60,8 +59,9 @@
   color: @yellow;
 }
 
-#backlight, #battery {
-    border-radius: 0;
+#backlight,
+#battery {
+  border-radius: 0;
 }
 
 #pulseaudio {
@@ -76,14 +76,14 @@
 }
 
 #custom-lock {
-    border-radius: 1rem 0px 0px 1rem;
-    color: @lavender;
+  border-radius: 1rem 0px 0px 1rem;
+  color: @lavender;
 }
 
 #custom-power {
-    margin-right: 1rem;
-    border-radius: 0px 1rem 1rem 0px;
-    color: @red;
+  margin-right: 1rem;
+  border-radius: 0px 1rem 1rem 0px;
+  color: @red;
 }
 
 #tray {
@@ -115,3 +115,18 @@
   padding: 0.5rem 1rem;
   margin: 0px 0;
 }
+
+#custom-bluetooth {
+  padding: 0 8px;
+  border-radius: 0;
+  background: @surface0;
+  color: @sapphire;
+  /* transition: */
+  /*   background 0.2s, */
+  /*   color 0.2s; */
+}
+
+/* #custom-bluetooth:hover { */
+/*   background: rgba(79, 151, 215, 0.18); */
+/*   color: #ffffff; */
+/* } */

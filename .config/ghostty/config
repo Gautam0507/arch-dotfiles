@@ -44,3 +44,4 @@
 theme = mocha.conf
 font-size = 12
 command = "tmux"
+term = xterm-256color

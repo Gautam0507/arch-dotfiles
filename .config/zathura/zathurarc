@@ -1,5 +1,4 @@
 # # Catppuccin Mocha theme for Zathura
-
 set completion-group-bg         "#313244"
 set completion-group-fg         "#cdd6f4"
 set completion-bg               "#313244"
@@ -45,8 +44,8 @@ map R rotate
 map K zoom in
 map J zoom out
 map i recolor
-set recolor                     true
-set recolor-keephue true
+# set recolor                     true
+# set recolor-keephue true
 # Font setting
 set font "monospace 12"
 
