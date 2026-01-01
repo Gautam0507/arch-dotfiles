@@ -8,7 +8,7 @@ return {
 			{ "<leader>cd", "<CMD>Copilot disable<CR>" },
 			{ "<C-l>", "copilot#AcceptWord()", mode = "i", expr = true, replace_keycodes = false },
 			{
-				"<C-b>",
+				"<C-y>",
 				'copilot#Accept("\\<CR>")',
 				mode = "i",
 				expr = true,

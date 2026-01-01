@@ -16,6 +16,33 @@ return { -- Autocompletion
 				end
 				return "make install_jsregexp"
 			end)(),
+			config = function()
+				local ls = require('luasnip')
+				
+				-- Enable autosnippets for math mode
+				ls.config.set_config({
+					enable_autosnippets = true,
+					update_events = "TextChanged,TextChangedI",
+				})
+				
+				-- Load basic math snippets (safely with error handling)
+				vim.schedule(function()
+					local ok, basic_math = pcall(require, "snippets.math.basic_math")
+					if ok then
+						ls.add_snippets("markdown", basic_math)
+					else
+						vim.notify("Warning: Could not load basic math snippets: " .. tostring(basic_math), vim.log.levels.WARN)
+					end
+					
+					-- Setup performance optimizations
+					local ok_perf, _ = pcall(require, 'config.math_performance')
+					if ok_perf then
+						require('config.math_performance').setup()
+					else
+						vim.notify("Warning: Could not load math performance config", vim.log.levels.WARN)
+					end
+				end)
+			end,
 			dependencies = {
 				-- `friendly-snippets` contains a variety of premade snippets.
 				--    See the README about individual language/framework/plugin snippets:
@@ -27,7 +54,6 @@ return { -- Autocompletion
 				--   end,
 				-- },
 			},
-			opts = {},
 		},
 		"folke/lazydev.nvim",
 	},
@@ -71,13 +97,24 @@ return { -- Autocompletion
 		completion = {
 			-- By default, you may press `<c-space>` to show the documentation.
 			-- Optionally, set `auto_show = true` to show the documentation after a delay.
-			documentation = { auto_show = false, auto_show_delay_ms = 500 },
+			documentation = { 
+				auto_show = false, 
+				auto_show_delay_ms = 500 
+			},
 		},
 
 		sources = {
 			default = { "lsp", "path", "snippets", "lazydev" },
+			per_filetype = {
+				markdown = { 
+					inherit_defaults = true, -- Ensures obsidian sources are properly integrated
+				}
+			},
 			providers = {
 				lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+				snippets = {
+					score_offset = 150, -- Higher priority for math snippets
+				},
 			},
 		},
 
