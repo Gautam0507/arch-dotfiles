@@ -18,5 +18,9 @@ return {
 
 		-- Map localleader to comma, VimTeX mappings use localleader
 		vim.g.maplocalleader = " "
+
+		vim.g.vimtex_compiler_latexmk = {
+			options = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "-outdir=build" },
+		}
 	end,
 }

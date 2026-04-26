@@ -6,7 +6,7 @@ return {
 			pattern = "markdown",
 			callback = function()
 				-- Only set conceallevel for files in obsidian vault
-				if string.find(vim.fn.expand("%:p"), "/home/Gautam/Documents/obsidian%-notes") then
+				if string.find(vim.fn.expand("%:p"), "/home/Gautam/Documents/obsidian-vault") then
 					vim.opt_local.conceallevel = 2
 				end
 			end,
@@ -15,8 +15,8 @@ return {
 	version = "3.14.7", -- Pinned to avoid blink.cmp completion bug in 3.14.8
 	lazy = true,
 	event = {
-		"BufReadPre /home/Gautam/Documents/obsidian-notes/*.md",
-		"BufNewFile /home/Gautam/Documents/obsidian-notes/*.md",
+		"BufReadPre /home/Gautam/Documents/obsidian-vault/*.md",
+		"BufNewFile /home/Gautam/Documents/obsidian-vault/*.md",
 	},
 	ft = "markdown",
 	---@module 'obsidian'
@@ -88,7 +88,7 @@ return {
 		workspaces = {
 			{
 				name = "personal",
-				path = "/home/Gautam/Documents/obsidian-notes",
+				path = "/home/Gautam/Documents/obsidian-vault",
 			},
 		},
 		daily_notes = {
@@ -117,7 +117,8 @@ return {
 				opts = { buffer = true, expr = true },
 			},
 		},
-		new_notes_location = "current_dir",
+        -- Place new notes at the vault root (no sub‑directory)
+        new_notes_location = "notes_subdir",
 		note_id_func = function(title)
 			if not title then
 				return ""
@@ -262,7 +263,7 @@ return {
 
 				-- Only format wiki links in obsidian vault files
 				local file_path = vim.fn.expand("%:p")
-				if file_path:match("/home/Gautam/Documents/obsidian%-notes") then
+				if file_path:match("/home/Gautam/Documents/obsidian-vault") then
 					format_wiki_links_in_buffer()
 				end
 			end,

@@ -174,18 +174,30 @@ return {
 					})
 				end
 
-				-- The following code creates a keymap to toggle inlay hints in your
-				-- code, if the language server you are using supports them
-				--
-				-- This may be unwanted, since they displace some of your code
-				if
-					client
-					and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
-				then
-					map("<leader>th", function()
-						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-					end, "[T]oggle Inlay [H]ints")
+		-- The following code creates a keymap to toggle inlay hints in your
+		-- code, if the language server you are using supports them
+		--
+		-- This may be unwanted, since they displace some of your code
+		if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+			-- Enable inlay hints (ghost text) by default for buffers where the server
+			-- supports the inlayHint capability. Many language servers provide
+			-- parameter names, type hints and other inline annotations via this.
+			-- We guard with pcall for compatibility across Neovim versions.
+			pcall(function()
+				if vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable then
+					-- Prefer buffer-scoped enabling when supported
+					local ok, _ = pcall(vim.lsp.inlay_hint.enable, true, { bufnr = event.buf })
+					if not ok then
+						-- Fallback to global call signature if buffer option isn't supported
+						vim.lsp.inlay_hint.enable(true)
+					end
 				end
+			end)
+
+			map("<leader>th", function()
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+			end, "[T]oggle Inlay [H]ints")
+		end
 			end,
 		})
 
@@ -332,17 +344,31 @@ return {
 					},
 				},
 			},
-			pyrefly = {
-				default_config = {
-					cmd = { "pyrefly", "lsp" },
-					filetypes = { "python" },
-					root_dir = python_root_dir,
-				},
-				setup = {
-					filetypes = { "python" },
-					root_dir = python_root_dir,
-				},
+		pyrefly = {
+			default_config = {
+				cmd = { "pyrefly", "lsp" },
+				filetypes = { "python" },
+				root_dir = python_root_dir,
 			},
+			setup = {
+				filetypes = { "python" },
+				root_dir = python_root_dir,
+			},
+		},
+		-- 'ty' language server for Python installed via mason (package name: 'ty')
+		-- Assumes the 'ty' binary exposes an LSP when invoked as 'ty'.
+		-- If the server requires a subcommand (for example 'ty lsp'), change cmd accordingly.
+		ty = {
+			default_config = {
+				cmd = { "ty" },
+				filetypes = { "python" },
+				root_dir = python_root_dir,
+			},
+			setup = {
+				filetypes = { "python" },
+				root_dir = python_root_dir,
+			},
+		},
 			docker_compose_language_service = {},
 			docker_language_server = {},
 			dockerls = {},
